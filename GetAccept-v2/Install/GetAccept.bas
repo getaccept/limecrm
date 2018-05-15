@@ -13,6 +13,7 @@ Private Const GlobalDocumentCommentField As String = "comment"
 Private Const GlobalDocumentCompanyField As String = "company"
 Private Const GlobalDocumentTypeFieldOptionQuote As String = "tender"
 Private Const GlobalDocumentTypeFieldOptionAgreement As String = "agreement"
+Private Const GlobalDocumentUseTypeFromOriginalDocument As Boolean = False
 
 ' Person
 Private Const GlobalPersonFirstNameField As String = "firstname"
@@ -605,7 +606,7 @@ ErrorHandler:
 End Function
 
 
-Public Sub DownloadFile(sLink As String, sFileName As String, className As String, commentField As String)
+Public Sub DownloadFile(sLink As String, sFileName As String, className As String, commentField As String, lngOriginalRecordID As Long)
     On Error GoTo ErrorHandler
     
     ThisApplication.MousePointer = 11
@@ -646,15 +647,32 @@ Public Sub DownloadFile(sLink As String, sFileName As String, className As Strin
         Call pDocument.Load(sFileLocation)
         Call oRecord.Open(Database.Classes("document"))
         oRecord.Value(GlobalDocumentField) = pDocument
+        
+        ' Set the document type
         If oRecord.Fields.Exists(GlobalDocumentTypeField) Then
-            oRecord(GlobalDocumentTypeField) = Database.Classes("document").Fields(GlobalDocumentTypeField).Options.Lookup(GlobalDocumentTypeFieldOptionAgreement, lkLookupOptionByKey)
+            Dim lngTypeOption As Long
+            If GlobalDocumentUseTypeFromOriginalDocument Then
+                Dim oRecordOriginalDocument As New LDE.Record
+                Dim lngOriginalDocumentRecordID As Long
+                lngOriginalDocumentRecordID = lngOriginalRecordID     '##TODO
+                
+                Dim oViewOriginalDocument As New LDE.View
+                Call oViewOriginalDocument.Add(GlobalDocumentTypeField)
+                Call oRecordOriginalDocument.Open(Database.Classes("document"), lngOriginalDocumentRecordID, oViewOriginalDocument)
+                lngTypeOption = oRecordOriginalDocument.Value(GlobalDocumentTypeField)
+            Else
+                lngTypeOption = Database.Classes("document").Fields(GlobalDocumentTypeField).Options.Lookup(GlobalDocumentTypeFieldOptionAgreement, lkLookupOptionByKey)
+            End If
+            oRecord(GlobalDocumentTypeField) = lngTypeOption
         End If
+        
+        ' Link to open inspector if relation exists with the same name
         If oRecord.Fields.Exists(className) Then
             oRecord(className) = oInspector.Record.ID
         End If
         
-        'connect company if a company field exists on the parent card and the document card.
-        If className <> "company" Then 'only done if the parent isnt alreaady the company
+        ' Connect company if a company field exists on the parent card and the document card.
+        If className <> "company" Then 'only done if the parent isn't already the company
             If oRecord.Fields.Exists(GlobalDocumentCompanyField) Then
                 If oInspector.Record.Fields.Exists(GlobalDocumentCompanyField) Then
                     oRecord(GlobalDocumentCompanyField) = oInspector.Controls.GetValue(GlobalDocumentCompanyField)
@@ -665,18 +683,17 @@ Public Sub DownloadFile(sLink As String, sFileName As String, className As Strin
         oRecord(commentField) = sFileName & " (" & (Localize.GetText("GetAccept", "SIGNED")) & ")"
         oRecord("sent_with_ga") = 1
         oRecord.Update
-         
     Else
         Call Lime.MessageBox(Localize.GetText("GetAccept", "i_download_failed"))
     End If
     
-    VBA.Kill (sFileLocation)
+    Call VBA.Kill(sFileLocation)
+    ThisApplication.MousePointer = 0
     
-    ThisApplication.MousePointer = 1
     Exit Sub
 ErrorHandler:
+    ThisApplication.MousePointer = 0
     Call UI.ShowError("GetAccept.DownloadFile")
-    ThisApplication.MousePointer = 1
 End Sub
 
 Private Function AddOrCheckLocalize(sOwner As String, sCode As String, sDescription As String, sEN_US As String, sSV As String, sNO As String, sFI As String, sDA As String) As Boolean
