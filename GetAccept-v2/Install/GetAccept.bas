@@ -674,7 +674,7 @@ ErrorHandler:
 End Function
 
 
-Public Sub DownloadFile(sLink As String, sFileName As String, className As String, commentField As String, lngOriginalRecordID As Long)
+Public Sub DownloadFile(sLink As String, sFileName As String, className As String, commentField As String, lngOriginalDocumentRecordID As Long)
     On Error GoTo ErrorHandler
     
     ThisApplication.MousePointer = 11
@@ -721,9 +721,6 @@ Public Sub DownloadFile(sLink As String, sFileName As String, className As Strin
             Dim lngTypeOption As Long
             If GlobalDocumentUseTypeFromOriginalDocument Then
                 Dim oRecordOriginalDocument As New LDE.Record
-                Dim lngOriginalDocumentRecordID As Long
-                lngOriginalDocumentRecordID = lngOriginalRecordID     '##TODO
-                
                 Dim oViewOriginalDocument As New LDE.View
                 Call oViewOriginalDocument.Add(GlobalDocumentTypeField)
                 Call oRecordOriginalDocument.Open(Database.Classes("document"), lngOriginalDocumentRecordID, oViewOriginalDocument)
