@@ -154,7 +154,7 @@ Public Function GetContactList(className As String) As String
     If className <> oInspector.Class.Name Then
         className = oInspector.Class.Name
     End If
-        If Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
+        If LC_Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
             Set oView = New LDE.View
             Call oView.Add(GlobalPersonFirstNameField, lkSortAscending)
             Call oView.Add(GlobalPersonLastNameField)
@@ -479,7 +479,7 @@ Public Function GetDocumentData(className As String, iddocument As Long) As Stri
     End If
     
     retval = ""
-    If Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
+    If LC_Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
         If Not oInspector.ActiveExplorer Is Nothing Then
              If iddocument > 0 Then
                  Set oRecords = New LDE.Records
@@ -569,7 +569,7 @@ Public Function GetDocumentDescription(className As String) As String
     Dim oInspector As New Lime.Inspector
     Set oInspector = ThisApplication.ActiveInspector
     ' The user has selected an document
-    If Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
+    If LC_Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
         If Not oInspector.ActiveExplorer Is Nothing Then
             If oInspector.ActiveExplorer.Class.Name = "document" Then
                 Set oRecord = New LDE.Record
@@ -601,7 +601,7 @@ Public Function GetDocumentId(className As String) As String
     Dim oInspector As New Lime.Inspector
     Set oInspector = ThisApplication.ActiveInspector
     ' The user has selected an document
-    If Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
+    If LC_Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
         If Not oInspector.ActiveExplorer Is Nothing Then
             If oInspector.ActiveExplorer.Class.Name = "document" Then
                 GetDocumentId = oInspector.ActiveExplorer.Selection.Item(1).Record.ID
@@ -625,7 +625,7 @@ Public Sub SetDocumentStatus(sStatus As String, className As String)
     Set oInspector = ThisApplication.ActiveInspector
     
     ' The user has selected an document
-    If Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
+    If LC_Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
         If Not oInspector.ActiveExplorer Is Nothing Then
             If oInspector.ActiveExplorer.Class.Name = "document" Then
                 
@@ -905,7 +905,7 @@ Public Function GetDocuments(className As String) As String
     End If
     
     ' The user has selected an document
-    If Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
+    If LC_Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
         If Not oInspector.ActiveExplorer Is Nothing Then
             If oInspector.ActiveExplorer.Class.Name = "document" Then
                 Set oRecord = New LDE.Record
@@ -1153,7 +1153,7 @@ Public Function GetAllDocumentsData(className As String) As String
     End If
     
     retval = "["
-    If Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
+    If LC_Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
          Set oRecord = New LDE.Record
          Set oView = New LDE.View
          Call oView.Add(GlobalDocumentField)
