@@ -71,7 +71,7 @@ Public Function OpenGetAccept(className As String, personSourceTab As String, pe
     GlobalPersonSourceTab = personSourceTab
     GlobalPersonSourceField = personSourceField
 
-    If Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
+    If LC_Globals.VerifyInspector(className, oInspector) And GetAccept.SaveNew() Then
         If Not oInspector.ActiveExplorer Is Nothing Then
             If oInspector.ActiveExplorer.Class.Name = "document" Then
                 If oInspector.ActiveExplorer.Selection.Count > 0 Then
