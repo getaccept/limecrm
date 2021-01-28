@@ -1,4 +1,4 @@
-lbs.apploader.register('GetAccept-v2', function () {
+﻿lbs.apploader.register('GetAccept-v2', function () {
     var self = this;
 
     /*Config (version 2.0)
@@ -254,7 +254,6 @@ lbs.apploader.register('GetAccept-v2', function () {
                             lbs.common.executeVba("GetAccept.SetTokens", fullToken);
                         }
                         var nowSec = Math.ceil(new Date().getTime() / 1000);
-
                         //Check if token expires within 7 days
                         if (expireToken - nowSec > 604800) {
                             var validTo = moment(expireToken * 1000).format("YYYY-MM-DD hh:mm a");
@@ -732,17 +731,15 @@ lbs.apploader.register('GetAccept-v2', function () {
             apiRequest("templates/" + viewModel.selectedTemplateId() + '/fields', "GET", "", function (data) {
                 if (data) {
                     $.each(data.fields, function (index, fieldData) {
-                        if (!!fieldData.field_label) {
-                            try {
-                                var fieldString = fieldData.field_value;
-                                var fieldKey = fieldString.replace("{{", "").replace("}}", "");
-                                var fieldKeyValue = eval('viewModel.' + fieldKey + '.text');
-                                fieldData.field_value = !!fieldKeyValue ? fieldKeyValue : field_value;
-                            } catch (e) {
-                                console.log(e);
-                            }
-                            viewModel.selectedTemplateFields.push(fieldData);
+                        try {
+                            var fieldString = fieldData.field_value;
+                            var fieldKey = fieldString.replace("{{", "").replace("}}", "");
+                            var fieldKeyValue = eval('viewModel.' + fieldKey + '.text');
+                            fieldData.field_value = !!fieldKeyValue ? fieldKeyValue : field_value;
+                        } catch (e) {
+                            console.log(e);
                         }
+                        viewModel.selectedTemplateFields.push(fieldData);
                     });
                     viewModel.TemplateFields(true);
                 } else {
@@ -1334,7 +1331,7 @@ lbs.apploader.register('GetAccept-v2', function () {
                 var documentData = {
                     name: '',
                     type: 'sales',
-                    external_id: getExternalKey(),
+                    external_id: key,
                     value: deal_value,
                     recipients: [],
                     company_name: company_name,
@@ -1345,7 +1342,7 @@ lbs.apploader.register('GetAccept-v2', function () {
                     email_send_message: viewModel.emailMessage(),
                     video_id: video_id ? video_id : 0,
                 }
-            
+
                 var have_signer = viewModel.recipientsList().filter(function (i) {
                     return i.signer() === true;
                 });
@@ -1366,7 +1363,7 @@ lbs.apploader.register('GetAccept-v2', function () {
                     addTemplates(documentData, automaticSending);
                 }
                 //If Lime Doument. Add Lime document data
-                else if (useLimeDocuments()) {
+                else if (viewModel.limeDocumentList().length > 0) {
                     addFile(documentData, automaticSending);
                 }
                 //If File from disk. Add file data
@@ -1374,21 +1371,6 @@ lbs.apploader.register('GetAccept-v2', function () {
                     addFile(documentData, automaticSending);
                 }
             }
-        }
-
-        function getExternalKey() {
-            if (!useLimeDocuments()) {
-                return key;
-            }
-            return viewModel.limeDocumentList().filter(function(doc) {
-                return doc.isSelected()
-            })[0].id;
-        }
-
-        function useLimeDocuments() {
-            return viewModel.limeDocumentList().filter(function(doc) {
-                return doc.isSelected()
-            }).length > 0;
         }
 
         function addTemplates(documentData, automaticSending) {
@@ -1594,6 +1576,20 @@ lbs.apploader.register('GetAccept-v2', function () {
             return coworker;
         }
 
+        function getEntityName() {
+            if (viewModel.entityList().length === 0) {
+                return '';
+            }
+            var eid = viewModel.User.entity_id
+            var entity = _.find(viewModel.entityList(), function(entity) {
+                return entity.id === eid;
+            });
+            if (entity && entity.name) {
+                return entity.name;
+            }
+            return '';
+        }
+
         function initGa() {
             viewModel.showApp = true;
             lbs.common.executeVba("GetAccept.initGa," + appConfig.personSourceTab + ',' + appConfig.personSourceField)
@@ -1683,6 +1679,7 @@ lbs.apploader.register('GetAccept-v2', function () {
         //New
         viewModel.toggleFileContainer = toggleFileContainer;
         viewModel.selectFileFromDisk = selectFileFromDisk;
+        viewModel.getEntityName = getEntityName;
         initGa();
         return viewModel;
     };
