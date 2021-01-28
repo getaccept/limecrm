@@ -530,6 +530,12 @@
             <!-- /ko -->
 
         </div>
+        <!-- ko if: !Login() && entityList().length > 0 -->
+        <div class="ga-entity-info">
+            <span data-bind="text: localize.GetAccept.ACTIVE_ENTITY"></span>
+            <span data-bind="text: getEntityName()"></span>
+        </div>
+        <!-- /ko -->
     </div>
    
     <div class="ga-view">
