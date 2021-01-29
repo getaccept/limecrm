@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  Loco xml export: Android string resources
- Project: Get Accept Translations
+ Project: Get Accept Translations (not used)
  Release: Working copy
  Locale: sv-SE, Swedish (Sweden)
  Tagged: Lime CRM
  Exported by: Andreas Åström
- Exported at: Tue, 07 May 2019 15:25:13 +0100
+ Exported at: Fri, 29 Jan 2021 14:08:22 +0100
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="COMMON_EMAIL">Epost</string>
+    <string name="COMMON_EMAIL">E-post</string>
     <string name="RELATED_DOCUMENTS">Relaterade dokument</string>
     <string name="NO_DOCUMENT_SENT_YET">Det finns inget dokument skickat från detta kort</string>
     <string name="SETTINGS">Inställningar</string>
@@ -82,7 +82,7 @@
     <string name="USE">Använd</string>
     <string name="RETAKE">Ta om</string>
     <string name="SEND_SMS">Skicka SMS</string>
-    <string name="SEARCH_INTERNAL">Sök internt efter email</string>
+    <string name="SEARCH_INTERNAL">Sök internt efter e-post</string>
     <string name="TEMPLATE_HEADER">Välj ett dokument från Lime eller en mall från GetAccept.</string>
     <string name="GET_STARTED">Kom igång</string>
     <string name="LIME_DOCUMENT">Dokument i Lime</string>
@@ -109,4 +109,5 @@
     <string name="THERE_ARE_NO_FILES">Det finns inga filer</string>
     <string name="UPLOAD_FILES">Ladda upp filer</string>
     <string name="YOU_CANT_TURN_OF_SMS">Du kan inte stänga av SMS-utskick eftersom mottagare saknar e-postadress.</string>
+    <string name="ACTIVE_ENTITY">Aktiv entitet:</string>
 </resources>
