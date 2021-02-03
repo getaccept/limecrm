@@ -531,7 +531,7 @@
 
         </div>
         <!-- ko if: !Login() && entityList().length > 0 -->
-        <div class="ga-entity-info">
+        <div class="ga-entity-info" data-bind="click: showSettings">
             <span data-bind="text: localize.GetAccept.ACTIVE_ENTITY"></span>
             <span data-bind="text: getEntityName()"></span>
         </div>
