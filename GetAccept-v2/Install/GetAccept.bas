@@ -26,7 +26,7 @@ Private Const GlobalPersonCompanyNameField As String = "company.name"
 Private Const GlobalCoworkerFirstNameField As String = "firstname"
 Private Const GlobalCoworkerLastNameField As String = "lastname"
 Private Const GlobalCoworkerEmailField As String = "email"
-Private Const GlobalCoworkerMobileField As String = "cellphone"
+Private Const GlobalCoworkerMobileField As String = "mobilephone"
 Private Const GlobalCoworkerInactiveField As String = "inactive"
 
 ' History
@@ -1187,3 +1187,10 @@ ErrorHandler:
     GetAllDocumentsData = ""
 End Function
 
+Public Function GetUserMobileField() As String
+    On Error GoTo ErrorHandler
+    GetUserMobileField = GlobalCoworkerMobileField
+    Exit Function
+ErrorHandler:
+    UI.ShowError ("GetAccept.GetUserMobileField")
+End Function

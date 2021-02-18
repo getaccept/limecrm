@@ -627,7 +627,8 @@
                 var first_name = '';
                 var last_name = '';
                 try {
-                    mobile = lbs.limeDataConnection.ActiveUser.Record("cellphone");
+                    var mobilePhoneField = lbs.common.executeVba('GetAccept.GetUserMobileField');
+                    mobile = lbs.limeDataConnection.ActiveUser.Record(mobilePhoneField);
                     first_name = lbs.limeDataConnection.ActiveUser.Record("firstname");
                     last_name = lbs.limeDataConnection.ActiveUser.Record("lastname");
                 } catch (e) {
