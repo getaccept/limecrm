@@ -26,7 +26,7 @@
 
             <!-- ko if: Signup() -->
                 <div class="ga-sendout-workflow">
-                    <a class="ga-back" data-bind="text: localize.GetAccept.CANCEL, click: backToLogin, icon: 'fa-arrow-left'"></a>
+                    <a class="ga-back" data-bind="text: localize.GetAccept.CANCEL, icon: 'fa-arrow-left',  click: backToLogin"></a>
                     <h4 data-bind="text: localize.GetAccept.CREATE_ACCOUNT"></h4>
                     <p><span data-bind="text: localize.GetAccept.REGISTRATION"></span><a href="" data-bind="openURL:'https://www.getaccept.com/send-proposals.html'" data-bind="text: localize.GetAccept.READ_ABOUT_ESIGNING"></a></p>
                     <label type="" data-bind="text: localize.GetAccept.NAME "/>
@@ -454,8 +454,7 @@
                     <div class="ga-settings-entity">
                         <p data-bind="text: localize.GetAccept.MULTIPLE_ENTITIES"></p>
                         <label for="entities" data-bind="text: localize.GetAccept.SELECT_ENTITY"> </label>
-                        <select id="entities" class="form-control" data-bind="foreach: entityList">
-                            <option data-bind="text: name, click: selectEntity"></option>
+                        <select id="entities" class="form-control" data-bind="options: entityList, optionsText: 'name', value: selectedEntity, event:{ change: selectEntity }">
                         </select>
                     </div>
                 </div>

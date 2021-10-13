@@ -156,9 +156,12 @@ a:hover {
 .ga-steps {
     display: inline-block;
     position: absolute;
-    left: 0;
+    /* left: 0; */
     text-align: center;
-    width: 100%;
+    /* width: 100%; */
+    display: inline;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .ga-steps li {
