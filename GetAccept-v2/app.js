@@ -25,7 +25,7 @@
         var apiEndpoint = "https://api.getaccept.com";
 
         var clientId = "Lime CRM";
-        var className = lbs.limeDataConnection.ActiveInspector.class.name;
+        var className = lbs.activeInspector.Class.Name;
         var class_id = 'id' + className;
         var originalPersonList = [];
         var originalTemplateList = [];
@@ -37,7 +37,7 @@
         var videoTimer = false;
         var pusherInit = false;
 
-        var id = lbs.limeDataConnection.ActiveInspector.Record.id;
+        var id = lbs.activeInspector.Record.id;
         var key = className + id;
 
         viewModel.searchToInvite = true;
@@ -123,6 +123,11 @@
         viewModel.limeDocumentList = ko.observableArray();
         viewModel.reminderOptions = [1, 3, 5, 7, 10, 14];
 
+        viewModel.selectedEntity = ko.observable();
+        viewModel.selectEntity = function () {
+            viewModel.selectedEntity().selectEntity();
+        }
+
 
         function toogleGaView() {
             $('.ga-container').slideToggle("slow");
@@ -186,6 +191,7 @@
         }
 
         function backToLogin() {
+            debuggers
             viewModel.Login(true);
             viewModel.Signup(false);
         }
@@ -384,7 +390,7 @@
             viewModel.Spinner(true);
             viewModel.gaDocumentList.removeAll();
             viewModel.GaDocuments(true);
-            var active_record_id = lbs.limeDataConnection.ActiveInspector.Controls.GetValue(class_id);
+            var active_record_id = lbs.activeInspector.Controls.GetValue(class_id);
             if (!!active_record_id) {
                 var document_ids = lbs.common.executeVba("GetAccept.CheckDocuments," + active_record_id + ',' + className);
                 if (document_ids && document_ids !== "False") {
@@ -412,7 +418,7 @@
                 });
 
             } else {
-                className = lbs.limeDataConnection.ActiveInspector.class.name;
+                className = lbs.activeInspector.Class.Name;
                 class_id = 'id' + className;
                 viewModel.Spinner(false);
                 listDocuments();
@@ -734,8 +740,13 @@
                         try {
                             var fieldString = fieldData.field_value;
                             var fieldKey = fieldString.replace("{{", "").replace("}}", "");
-                            var fieldKeyValue = eval('viewModel.' + fieldKey + '.text');
-                            fieldData.field_value = !!fieldKeyValue ? fieldKeyValue : field_value;
+                            if(!viewModel[fieldKey]) {
+                                viewModel[fieldKey] = {
+                                    text: ''
+                                }
+                            }
+                            var fieldKeyValue = !!fieldKey ? eval('viewModel["' + fieldKey + '"].text') : '' ;
+                            fieldData.field_value = !!fieldKeyValue ? fieldKeyValue : fieldData.field_value;
                         } catch (e) {
                             console.log(e);
                         }
@@ -762,7 +773,7 @@
             var field = this;
             try {
                 field.value = fieldValue.text;
-                field.name = lbs.limeDataConnection.ActiveInspector.Record.Field(fieldName).LocalName
+                field.name = lbs.activeInspector.Record.Field(fieldName).LocalName
                 field.key = "{{" + className + "." + fieldName + "}}";
                 field.copy = function () {
                     try {
@@ -1007,8 +1018,8 @@
         //This should be removed in next version.
         function reloadFileName() {
             viewModel.documentName('');
-            if (lbs.limeDataConnection.ActiveInspector.ActiveExplorer.class.name === "document") {
-                if (lbs.limeDataConnection.ActiveInspector.ActiveExplorer.Selection.Count > 0) {
+            if (lbs.activeInspector.ActiveExplorer.Class.Name === "document") {
+                if (lbs.activeInspector.ActiveExplorer.Selection.Count > 0) {
                     var document_data = lbs.common.executeVba("GetAccept.GetDocumentData," + className);
                     document_data = JSON.parse(document_data);
                     viewModel.documentName(document_data[0].file_name);
@@ -1039,12 +1050,12 @@
         viewModel.goToDocumentAfterFields = goToDocumentAfterFields;
 
         function showDocument() {
-
             var limeTemplates = $.grep(viewModel.limeDocumentList(), function(doc) {
                 return doc.isSelected();
             });
             //Check if SMS must be activated
             viewModel.sendSMS(viewModel.activateSmsSending());
+
 
             if (!!viewModel.selectedTemplate() && viewModel.useTemplates()) {
                 haveSelectFile();

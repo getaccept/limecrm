@@ -1,5 +1,13 @@
 # Changelog for GetAccept
 
+## v1.1.5
+**Released:** 2021-10-13
+* Fixed WebView2 issues
+
+## v1.1.4
+**Released:** 2021-01-28
+*Added entity name and smaller improvments
+
 ## v1.1.3
 **Released:** 2019-05-07
 * Can now send a document to a recipient who only has a phone number
