@@ -16,7 +16,7 @@
     <string name="INVITE_COWORKERS">Invite coworkers</string>
     <string name="SUPPORT">Support</string>
     <string name="CANCEL">Cancel</string>
-    <string name="MULTIPLE_ENTITIES">If you have multiple entities you can select your current entity here.\u0020</string>
+    <string name="MULTIPLE_ENTITIES">If you have multiple entities you can select your current entity here.</string>
     <string name="SELECT_ENTITY">Select entity</string>
     <string name="INVITE_COLLEGUES">Invite colleagues to use this integration</string>
     <string name="INVITE">Invite</string>

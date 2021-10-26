@@ -738,14 +738,14 @@
                 if (data) {
                     $.each(data.fields, function (index, fieldData) {
                         try {
+                            var fieldKeyValue = null;
                             var fieldString = fieldData.field_value;
                             var fieldKey = fieldString.replace("{{", "").replace("}}", "");
-                            if(!viewModel[fieldKey]) {
-                                viewModel[fieldKey] = {
-                                    text: ''
-                                }
+                            var mergeFieldValues = fieldKey.split('.');
+                            if(mergeFieldValues && mergeFieldValues.length > 1 && mergeFieldValues[0] === className) {
+                                fieldData.field_label = fieldString;
+                                fieldKeyValue = !!mergeFieldValues[1] ? eval('viewModel.'+ className + '["' + mergeFieldValues[1] + '"].text') : '' ;
                             }
-                            var fieldKeyValue = !!fieldKey ? eval('viewModel["' + fieldKey + '"].text') : '' ;
                             fieldData.field_value = !!fieldKeyValue ? fieldKeyValue : fieldData.field_value;
                         } catch (e) {
                             console.log(e);
@@ -777,8 +777,11 @@
                 field.key = "{{" + className + "." + fieldName + "}}";
                 field.copy = function () {
                     try {
-                        window.clipboardData.setData('Text', this.key);
-                        alert("Value is copied to clipboard");
+                        if(navigator.clipboard) {
+                            navigator.clipboard.writeText(this.key).then(() => {
+                                alert("Value is copied to clipboard");
+                            })
+                        }
                     } catch (err) {
                         console.log(err);
                     }

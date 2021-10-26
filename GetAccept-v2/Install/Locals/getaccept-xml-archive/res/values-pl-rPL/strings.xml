@@ -35,7 +35,7 @@
     <string name="PAID_PLAN">Plan premium</string>
     <string name="NAME">Imie</string>
     <string name="ENTITY_NAME">Wpisz nazwę swojej firmy / podmiotu</string>
-    <string name="VERIFY_CREDENTIALS">Sprawdź czy Twój login i hasło się zgadzają.\u0020</string>
+    <string name="VERIFY_CREDENTIALS">Sprawdź czy Twój login i hasło się zgadzają.</string>
     <string name="SEND">Wyślij</string>
     <string name="DOCUMENT_RECIPIENTS">Odbiorcy dokumentu</string>
     <string name="RECIPIENT_ROLES">Dodaj i ustaw role odbiorców. Wszyscy odbiorcy w liście otrzymają dokument.</string>
