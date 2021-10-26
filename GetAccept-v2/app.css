@@ -1070,6 +1070,11 @@ a:hover {
     white-space: normal;
 }
 
+.ga-settings-version {
+    position: absolute;
+    bottom: 0;
+}
+
 .ga-spinner {
     position: absolute;
     bottom: 0px;
