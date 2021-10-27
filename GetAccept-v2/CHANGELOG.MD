@@ -1,5 +1,11 @@
 # Changelog for GetAccept
 
+## v1.1.6
+**Released:** 2021-10-27
+* Added populate value for merge fields
+* Added display current version
+* Removed \u0020 in translations
+
 ## v1.1.5
 **Released:** 2021-10-13
 * Fixed WebView2 issues
