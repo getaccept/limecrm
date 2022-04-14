@@ -878,18 +878,17 @@
         }
 
         function templateFolder(templateFolder) {
-            const folder = this;
-            folder = {
+            this = {
                 ...folder,
                 name: templateFolder.name,
-                id: templateFolder.id
+                id: templateFolder.id,
+                selectFolder: function () {
+                    viewModel.currentFolder(this.id);
+                    getTemplates(this.id);
+                    getTemplateFolders(this.id);
+                }
             }
-            folder.selectFolder = function () {
-                viewModel.currentFolder(this.id);
-                getTemplates(this.id);
-                getTemplateFolders(this.id);
-            }
-            return folder;
+            return this;
         }
 
         function limeDocumentModel(limeDocument) {
