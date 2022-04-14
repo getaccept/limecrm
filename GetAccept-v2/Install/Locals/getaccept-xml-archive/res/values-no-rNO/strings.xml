@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS">Dokument Mottakere</string>
     <string name="RECIPIENT_ROLES">Legg til og sett mottaker roller. Alle mottakere i listen vil motta dokumentet.</string>
     <string name="CLICK_TO_SEARCH">Klikk for å søke navn eller e-post</string>
+    <string name="CLICK_TO_SELECT_RECIPIENT">Klikk for å velge mottaker for rolle</string>
     <string name="NO_RECIPIENTS">Ingen mottakere lagt til</string>
     <string name="SIGNER">Signerer</string>
     <string name="CC">Kun se</string>

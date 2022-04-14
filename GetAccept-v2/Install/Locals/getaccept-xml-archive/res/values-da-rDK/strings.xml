@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS">Modtagere</string>
     <string name="RECIPIENT_ROLES">Tilføj modtagere og deres rolle. Alle modtagere på listen vil modtage dokumentet</string>
     <string name="CLICK_TO_SEARCH">Klik for at søge navn eller e-mail</string>
+    <string name="CLICK_TO_SELECT_RECIPIENT">Klik for at vælge modtager til rollen</string>
     <string name="NO_RECIPIENTS">Ingen modtager tilføjet</string>
     <string name="SIGNER">Underskriver</string>
     <string name="CC">CC</string>

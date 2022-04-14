@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS">Document Recipients</string>
     <string name="RECIPIENT_ROLES">Add and set recipient roles. All recipients in the list will receive the document.</string>
     <string name="CLICK_TO_SEARCH">Click to search on email</string>
+    <string name="CLICK_TO_SELECT_RECIPIENT">Click to select recipient for role</string>
     <string name="NO_RECIPIENTS">No recipients added</string>
     <string name="SIGNER">Signer</string>
     <string name="CC">CC</string>

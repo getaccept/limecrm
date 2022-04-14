@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS">Mottagare</string>
     <string name="RECIPIENT_ROLES">Lägg till mottagare och sätt deras roll. Var mottagare i listan kommer att få ett dokument skickat till sig</string>
     <string name="CLICK_TO_SEARCH">Klicka för att söka efter e-post</string>
+    <string name="CLICK_TO_SELECT_RECIPIENT">Klicka för att välja mottagare för roll</string>
     <string name="NO_RECIPIENTS">Inga mottagare tillagda</string>
     <string name="SIGNER">Signerare</string>
     <string name="CC">CC</string>
