@@ -733,12 +733,9 @@
 
         function getTemplateFolders(folderId = '') {
             viewModel.templateFolders.removeAll();
-            let folderUrl = '';
+            let folderUrl = `folders/${folderId}`;
 
-            if (folderId) {
-                folderUrl = `/${folderId}`;
-            }
-            apiRequest(`folders${folderUrl}?type=template`, 'GET', '', function(data) {
+            apiRequest(`${folderUrl}?type=template`, 'GET', '', function(data) {
                 if(data.folders) {
                     $.each(data.folders, function (index, folder) {
                         let folderModel = new templateFolder(folder);
@@ -881,9 +878,12 @@
         }
 
         function templateFolder(templateFolder) {
-            var folder = this;
-            folder.name = templateFolder.name;
-            folder.id = templateFolder.id;
+            const folder = this;
+            folder = {
+                ...folder,
+                name: templateFolder.name,
+                id: templateFolder.id
+            }
             folder.selectFolder = function () {
                 viewModel.currentFolder(this.id);
                 getTemplates(this.id);
@@ -930,7 +930,7 @@
 
         function showRecipientsList(index, role, event) {
             viewModel.recipientsList().map((recipient) => {
-                if(recipient.roleId && recipient.roleId == role.role_id) {
+                if(recipient.roleId && recipient.roleId === role.role_id) {
                     recipient.roleId = null;
                     event.target.value = '';
                 }
@@ -1547,6 +1547,7 @@
                     hideAllSteps();
                     viewModel.Reminder(true);
                 } else {
+                    let seconds = 11;
                     setTimeout(function () {
                         viewModel.Spinner(false);
                         var docUrl = '/document/edit/' + data.id;
