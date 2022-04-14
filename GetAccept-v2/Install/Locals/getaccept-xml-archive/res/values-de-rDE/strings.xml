@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS">Dokument Empfänger</string>
     <string name="RECIPIENT_ROLES">Empfänger hinzufügen und Rechte definieren. Alle Empfänger in dieser Liste erhalten das Dokument.</string>
     <string name="CLICK_TO_SEARCH">Für die Suche nach Name oder Email-Adresse bitte klicken</string>
+    <string name="CLICK_TO_SELECT_RECIPIENT">Klicken Sie, um den Empfänger für die Rolle auszuwählen</string>
     <string name="NO_RECIPIENTS">Kein Empfänger angegeben</string>
     <string name="SIGNER">Unterschriftsbevollmächtigter</string>
     <string name="CC">Kopie an</string>

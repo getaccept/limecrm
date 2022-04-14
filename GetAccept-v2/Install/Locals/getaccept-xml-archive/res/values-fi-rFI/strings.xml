@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS">Asiakirjan vastaanottajat</string>
     <string name="RECIPIENT_ROLES">Lisää ja määrittää vastaanottajien rooleja. Kaikki vastaanottajat luettelossa saavat asiakirjan.</string>
     <string name="CLICK_TO_SEARCH">Klikkaa etsiäksesi nimeä tai sähköpostiosoitetta</string>
+    <string name="CLICK_TO_SELECT_RECIPIENT">Napsauta valitaksesi roolin vastaanottaja</string>
     <string name="NO_RECIPIENTS">Ei vastaanottajia lisätty</string>
     <string name="SIGNER">Allekirjoittaja</string>
     <string name="CC">CC</string>

@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS"></string>
     <string name="RECIPIENT_ROLES"></string>
     <string name="CLICK_TO_SEARCH"></string>
+    <string name="CLICK_TO_SELECT_RECIPIENT"></string>
     <string name="NO_RECIPIENTS"></string>
     <string name="SIGNER"></string>
     <string name="CC"></string>

@@ -18,6 +18,9 @@ Features :
 
 **Good to know:** The integration is built for the **"Lime Core database"**. If you need to install it in a different solutions you may need to do some manual configurations.
 
+## Requirements 
+- LBS verion > 1.12
+
 ## How does it work
 You can add the GetAccept App on every object where there is a document tab present.
 

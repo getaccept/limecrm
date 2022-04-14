@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS">Destinataires du docuement</string>
     <string name="RECIPIENT_ROLES">Ajouter et définir les rôles des destinataires. Tous les destinataires de la liste recevront le document.</string>
     <string name="CLICK_TO_SEARCH">Cliquez pour rechercher dans les email</string>
+    <string name="CLICK_TO_SELECT_RECIPIENT">Cliquez pour sélectionner le destinataire du rôle</string>
     <string name="NO_RECIPIENTS">Aucun destinataire ajouté</string>
     <string name="SIGNER">Signataire</string>
     <string name="CC">CC</string>

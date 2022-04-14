@@ -40,6 +40,7 @@
     <string name="DOCUMENT_RECIPIENTS">Odbiorcy dokumentu</string>
     <string name="RECIPIENT_ROLES">Dodaj i ustaw role odbiorców. Wszyscy odbiorcy w liście otrzymają dokument.</string>
     <string name="CLICK_TO_SEARCH">Kliknij by wyszukać imie lub email</string>
+    <string name="CLICK_TO_SELECT_RECIPIENT">Kliknij, aby wybrać odbiorcę roli</string>
     <string name="NO_RECIPIENTS">Nie został dodany żaden odbiorca</string>
     <string name="SIGNER">Podpisujący</string>
     <string name="CC">Kopia</string>

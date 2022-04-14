@@ -10,6 +10,12 @@
         this.yourPropertyDefinedWhenTheAppIsUsed = appConfig.yourProperty;
         this.dataSources = [{
             type: 'activeInspector'
+        },
+        {
+            type: 'relatedRecord',
+            source: 'company',
+            view: 'name;phone;email;country',
+            alias: 'company'
         }];
         this.appConfig = appConfig;
         this.resources = {
@@ -42,6 +48,9 @@
 
         viewModel.searchToInvite = true;
         viewModel.User = "";
+
+        // DEFINE RELATED MODELS
+        viewModel.releatedModels = ['business','deal', 'company'];
 
         // THIS IS THE DIFERENT VIEWS
         viewModel.Spinner = ko.observable(false);
@@ -101,9 +110,14 @@
         viewModel.selectedTemplateId = ko.observable();
         viewModel.selectedTemplateFields = ko.observableArray();
         viewModel.availableLimeFields = ko.observableArray();
+        viewModel.templateRoles = ko.observableArray();
+        viewModel.test = ko.observable();
+        viewModel.showRolesRecipientsList = ko.observable();
 
         viewModel.showGaTemplates = ko.observable(false);
         viewModel.showLimeFiles = ko.observable(false);
+        viewModel.templateFolders = ko.observableArray();
+        viewModel.currentFolder = ko.observable('');
 
         //UPLOAD FILE
         viewModel.filesFromDiskList = ko.observableArray();
@@ -191,7 +205,6 @@
         }
 
         function backToLogin() {
-            debuggers
             viewModel.Login(true);
             viewModel.Signup(false);
         }
@@ -704,10 +717,10 @@
             }
         }
 
-        function getTemplates() {
+        function getTemplates(folder_id) {
             viewModel.templateList.removeAll();
             originalTemplateList = [];
-            apiRequest('templates', 'GET', '', function (data) {
+            apiRequest(`templates?folder_id=${folder_id}`, 'GET', '', function (data) {
                 if (data.templates) {
                     $.each(data.templates, function (index, templateData) {
                         var temp = new templateModel(templateData);
@@ -716,6 +729,30 @@
                     });
                 }
             });
+        }
+
+        function getTemplateFolders(folderId = '') {
+            viewModel.templateFolders.removeAll();
+            let folderUrl = '';
+
+            if (folderId) {
+                folderUrl = `/${folderId}`;
+            }
+            apiRequest(`folders${folderUrl}?type=template`, 'GET', '', function(data) {
+                if(data.folders) {
+                    $.each(data.folders, function (index, folder) {
+                        let folderModel = new templateFolder(folder);
+                        viewModel.templateFolders.push(folderModel);
+                    })
+                }
+            })
+        }
+
+        function folderBack() {
+            viewModel.templateFolders.removeAll();
+            getTemplateFolders();
+            getTemplates('');
+            viewModel.currentFolder('');
         }
 
         function getLimeFiles() {
@@ -742,9 +779,9 @@
                             var fieldString = fieldData.field_value;
                             var fieldKey = fieldString.replace("{{", "").replace("}}", "");
                             var mergeFieldValues = fieldKey.split('.');
-                            if(mergeFieldValues && mergeFieldValues.length > 1 && mergeFieldValues[0] === className) {
+                            if(mergeFieldValues && mergeFieldValues.length > 1 && viewModel.releatedModels.includes(mergeFieldValues[0])) {
                                 fieldData.field_label = fieldString;
-                                fieldKeyValue = !!mergeFieldValues[1] ? eval('viewModel.'+ className + '["' + mergeFieldValues[1] + '"].text') : '' ;
+                                fieldKeyValue = !!mergeFieldValues[1] ? eval('viewModel.'+ mergeFieldValues[0] + '["' + mergeFieldValues[1] + '"].text') : '' ;
                             }
                             fieldData.field_value = !!fieldKeyValue ? fieldKeyValue : fieldData.field_value;
                         } catch (e) {
@@ -752,29 +789,63 @@
                         }
                         viewModel.selectedTemplateFields.push(fieldData);
                     });
-                    viewModel.TemplateFields(true);
+
+                    if(!viewModel.selectedTemplateFields().length && !viewModel.templateRoles().length) {
+                        hideAllSteps();
+                        viewModel.Document(true);
+                    } else {
+                        viewModel.TemplateFields(true);
+                    }
                 } else {
+                    if(viewModel.templateRoles().length){
+                        viewModel.TemplateFields(true);
+                        return;
+                    }
                     viewModel.Document(true);
                 }
+            });
+        }
+
+        function getTemplateRoles() {
+            viewModel.templateRoles.removeAll();
+            apiRequest("templates/" + viewModel.selectedTemplateId() + '/roles', "GET", "", function (data) {
+                if (data) {
+                    $.each(data.roles, function (index, rolesData) {
+                        try {
+                            viewModel.templateRoles.push(rolesData);
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    });
+                }
+                
             });
         }
 
         function showTemplateParameters() {
             hideAllSteps();
             viewModel.availableLimeFields.removeAll();
-            $.each(eval('viewModel.' + className), function (fieldName, fieldValue) {
-                var fieldData = new mapAvailableField(fieldName, fieldValue);
-                viewModel.availableLimeFields.push(fieldData);
-            });
+            $.each(viewModel.releatedModels, function (index , relatedClassName) {
+                if(!eval('viewModel.'+relatedClassName)) {
+                    return;
+                }
+                $.each(eval('viewModel.' + relatedClassName), function (fieldName, fieldValue) {
+                    if (fieldName == 'id' || fieldName == 'lymetype') {
+                        return;
+                    }
+                    var fieldData = new mapAvailableField(fieldName, fieldValue, relatedClassName);
+                    viewModel.availableLimeFields.push(fieldData);
+                });
+            })
             viewModel.AvailableFields(true);
         }
 
-        function mapAvailableField(fieldName, fieldValue) {
+        function mapAvailableField(fieldName, fieldValue, currentClassName) {
             var field = this;
             try {
                 field.value = fieldValue.text;
-                field.name = lbs.activeInspector.Record.Field(fieldName).LocalName
-                field.key = "{{" + className + "." + fieldName + "}}";
+                field.name = lbs.activeInspector.Application.Database.Classes(currentClassName).Fields(fieldName).LocalName
+                field.key = "{{" + currentClassName + "." + fieldName + "}}";
                 field.copy = function () {
                     try {
                         if(navigator.clipboard) {
@@ -813,6 +884,18 @@
             return template;
         }
 
+        function templateFolder(templateFolder) {
+            var folder = this;
+            folder.name = templateFolder.name;
+            folder.id = templateFolder.id;
+            folder.selectFolder = function () {
+                viewModel.currentFolder(this.id);
+                getTemplates(this.id);
+                getTemplateFolders(this.id);
+            }
+            return folder;
+        }
+
         function limeDocumentModel(limeDocument) {
             var document = this;
             document.name = limeDocument.file_name;
@@ -849,6 +932,20 @@
             viewModel.showPersons(true);
         }
 
+        function showRecipientsList(index, role, event) {
+            viewModel.recipientsList().map((recipient) => {
+                if(recipient.roleId && recipient.roleId == role.role_id) {
+                    recipient.roleId = null;
+                    event.target.value = '';
+                }
+            })
+            viewModel.showRolesRecipientsList(index());
+        }
+
+        function hideRecipientslist() {
+            viewModel.showRolesRecipientsList(null);
+        }
+
         function hidePersonList() {
             viewModel.showPersons(false);
         }
@@ -872,6 +969,7 @@
                     recipient.mobilephone = personData.mobilephone;
                     recipient.signer = ko.observable(true);
                     recipient.cc = ko.observable(false);
+                    recipient.role = ko.observable();
                     recipient.searchString = (personData.firstname + '' + personData.lastname + '' + personData.email).toLocaleLowerCase();
                 } catch (e) {
                     alert(e);
@@ -893,11 +991,21 @@
                 }
                 recipient.isCC = function () {
                     this.signer(false);
-                    this.cc(!this.cc());
+                    if(!this.cc()) {
+                        this.cc(!this.cc());
+                    }
                 }
                 recipient.isSigner = function () {
-                    this.signer(!this.signer());
+                    if(!this.signer()) {
+                        this.signer(!this.signer())
+                    }
                     this.cc(false);
+                }
+                recipient.addRole = function (role, event, data) {
+                    data.roleId =  role.role_id;
+                    $(`#role-${event}`).val(data.firstname + ' ' + data.lastname)
+                    let rolesInput = $('.ga-input-role');
+                    hideRecipientslist();
                 }
             }
 
@@ -911,7 +1019,8 @@
                 last_name: recipient.lastname,
                 mobile: recipient.mobilephone,
                 role: recipient.signer() ? 'signer' : 'cc',
-                company_name : recipient.company_name
+                company_name : recipient.company_name,
+                role_id: recipient.roleId
             }
         }
 
@@ -1006,7 +1115,8 @@
         function showFile() {
             viewModel.Spinner(true);
             if (viewModel.recipientsList().length > 0) {
-                getTemplates();
+                getTemplateFolders();
+                getTemplates('');
                 getLimeFiles();
                 viewModel.Recipient(false);
                 viewModel.File(true);
@@ -1059,10 +1169,11 @@
             //Check if SMS must be activated
             viewModel.sendSMS(viewModel.activateSmsSending());
 
-
+            
             if (!!viewModel.selectedTemplate() && viewModel.useTemplates()) {
                 haveSelectFile();
                 viewModel.TemplateFields(false);
+                getTemplateRoles();
                 getTemplateFields();
             }
             else if (viewModel.filesFromDiskList().length > 0) {
@@ -1176,7 +1287,7 @@
             listDocuments();
         }
 
-        function packEmailData() {
+        async function packEmailData() {
             var emailData = {};
             try {
                 var message = prepereStringForSendingToVBA(viewModel.emailMessage());
@@ -1195,9 +1306,8 @@
                     alert(e);
                 }
 
-                lbs.common.executeVba("GetAccept.showEmailDialog," + t);
-                var emailResult = lbs.common.executeVba("GetAccept.GetEmailData");
-
+               await lbs.common.executeVbaAsync("GetAccept.showEmailDialog," + t);
+                var emailResult = await lbs.common.executeVbaAsync("GetAccept.GetEmailData");
                 unpackEmailData(emailResult);
             } catch (e) {
                 alert(e);
@@ -1447,7 +1557,7 @@
                         var sso_url = 'https://app.getaccept.com/auth/sso/login?token=' + escape(accessToken) + '&entity_id=' + entityId + '&go=' + escape(docUrl);
                         lbs.common.executeVba("GetAccept.OpenGALink", sso_url);
                         done();
-                    }, 3000);
+                    }, 11*1000);
                 }
                 viewModel.videoData({});
                 viewModel.hasVideo(false);
@@ -1669,6 +1779,8 @@
         viewModel.backToLogin = backToLogin;
         viewModel.cancel = cancel;
         viewModel.showPersonList = showPersonList;
+        viewModel.showRecipientsList = showRecipientsList;
+        viewModel.hideRecipientslist = hideRecipientslist;
         viewModel.showFile = showFile;
         viewModel.showDocument = showDocument;
         viewModel.send = send;
@@ -1694,6 +1806,7 @@
         viewModel.toggleFileContainer = toggleFileContainer;
         viewModel.selectFileFromDisk = selectFileFromDisk;
         viewModel.getEntityName = getEntityName;
+        viewModel.folderBack = folderBack;
         initGa();
         return viewModel;
     };
