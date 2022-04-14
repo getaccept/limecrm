@@ -1546,14 +1546,14 @@
                     hideAllSteps();
                     viewModel.Reminder(true);
                 } else {
-                    let seconds = 11;
+                    let sleepWhileImporting = 11*1000;
                     setTimeout(function () {
                         viewModel.Spinner(false);
                         var docUrl = '/document/edit/' + data.id;
                         var sso_url = 'https://app.getaccept.com/auth/sso/login?token=' + escape(accessToken) + '&entity_id=' + entityId + '&go=' + escape(docUrl);
                         lbs.common.executeVba("GetAccept.OpenGALink", sso_url);
                         done();
-                    }, 11*1000);
+                    }, sleepWhileImporting);
                 }
                 viewModel.videoData({});
                 viewModel.hasVideo(false);
