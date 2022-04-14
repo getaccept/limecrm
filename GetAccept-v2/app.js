@@ -811,11 +811,7 @@
             apiRequest("templates/" + viewModel.selectedTemplateId() + '/roles', "GET", "", function (data) {
                 if (data) {
                     $.each(data.roles, function (index, rolesData) {
-                        try {
-                            viewModel.templateRoles.push(rolesData);
-                        } catch (e) {
-                            console.log(e);
-                        }
+                        viewModel.templateRoles.push(rolesData);
                     });
                 }
                 
@@ -830,7 +826,7 @@
                     return;
                 }
                 $.each(eval('viewModel.' + relatedClassName), function (fieldName, fieldValue) {
-                    if (fieldName == 'id' || fieldName == 'lymetype') {
+                    if (fieldName === 'id' || fieldName === 'lymetype') {
                         return;
                     }
                     var fieldData = new mapAvailableField(fieldName, fieldValue, relatedClassName);
