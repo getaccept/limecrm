@@ -111,4 +111,6 @@
     <string name="UPLOAD_FILES">Prześlij plik (i)</string>
     <string name="YOU_CANT_TURN_OF_SMS"></string>
     <string name="ACTIVE_ENTITY"></string>
+    <string name="TEMPLATE_FIELDS">Pola szablonów</string>
+    <string name="TEMPLATE_ROLES">Role szablonów</string>
 </resources>

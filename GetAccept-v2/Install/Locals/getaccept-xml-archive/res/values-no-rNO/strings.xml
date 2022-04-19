@@ -111,4 +111,6 @@
     <string name="UPLOAD_FILES">Last opp filer</string>
     <string name="YOU_CANT_TURN_OF_SMS">Du kan ikke slå av SMS fordi mottaker mangler en epost adresse.</string>
     <string name="ACTIVE_ENTITY">Aktiv enhet:</string>
+    <string name="TEMPLATE_FIELDS">Malfelt</string>
+    <string name="TEMPLATE_ROLES">Malroller</string>
 </resources>

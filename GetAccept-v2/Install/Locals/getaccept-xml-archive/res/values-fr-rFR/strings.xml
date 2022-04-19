@@ -111,4 +111,6 @@
     <string name="UPLOAD_FILES">Télécharger des fichiers</string>
     <string name="YOU_CANT_TURN_OF_SMS">Vous ne pouvez pas désactiver le courrier électronique car les destinataires ne disposent pas d\'adresses électroniques.</string>
     <string name="ACTIVE_ENTITY"></string>
+    <string name="TEMPLATE_FIELDS">Champs de modèle</string>
+    <string name="TEMPLATE_ROLES">Rôles de modèle</string>
 </resources>

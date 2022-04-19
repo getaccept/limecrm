@@ -111,4 +111,6 @@
     <string name="UPLOAD_FILES">Subir archivos</string>
     <string name="YOU_CANT_TURN_OF_SMS"></string>
     <string name="ACTIVE_ENTITY"></string>
+    <string name="TEMPLATE_FIELDS">Campos de plantilla</string>
+    <string name="TEMPLATE_ROLES">Roles de plantilla</string>
 </resources>
