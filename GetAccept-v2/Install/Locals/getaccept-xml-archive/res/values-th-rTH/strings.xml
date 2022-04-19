@@ -111,4 +111,6 @@
     <string name="UPLOAD_FILES">อัพโหลดไฟล์</string>
     <string name="YOU_CANT_TURN_OF_SMS"></string>
     <string name="ACTIVE_ENTITY"></string>
+    <string name="TEMPLATE_FIELDS">Template Fields</string>
+    <string name="TEMPLATE_ROLES">Template Roles</string>
 </resources>

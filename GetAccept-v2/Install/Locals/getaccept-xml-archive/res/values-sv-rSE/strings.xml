@@ -111,4 +111,6 @@
     <string name="UPLOAD_FILES">Ladda upp filer</string>
     <string name="YOU_CANT_TURN_OF_SMS">Du kan inte stänga av SMS-utskick eftersom mottagare saknar e-postadress.</string>
     <string name="ACTIVE_ENTITY">Aktiv entitet:</string>
+    <string name="TEMPLATE_FIELDS">Mallfält</string>
+    <string name="TEMPLATE_ROLES">Mallroller</string>
 </resources>

@@ -111,4 +111,6 @@
     <string name="UPLOAD_FILES">Upload file(s)</string>
     <string name="YOU_CANT_TURN_OF_SMS">You can\'t turn off SMS because your recipient is missing an email address.</string>
     <string name="ACTIVE_ENTITY">Active entity:</string>
+    <string name="TEMPLATE_FIELDS">Template Fields</string>
+    <string name="TEMPLATE_ROLES">Template Roles</string>
 </resources>

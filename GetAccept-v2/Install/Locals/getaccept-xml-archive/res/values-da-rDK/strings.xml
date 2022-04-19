@@ -111,4 +111,6 @@
     <string name="UPLOAD_FILES">Upload fil(er)</string>
     <string name="YOU_CANT_TURN_OF_SMS">Du kan ikke slukke for SMS, fordi din modtager mangler en e-mailadresse.</string>
     <string name="ACTIVE_ENTITY">Aktiv enhed:</string>
+    <string name="TEMPLATE_FIELDS">Skabelonfelter</string>
+    <string name="TEMPLATE_ROLES">Skabelon roller</string>
 </resources>

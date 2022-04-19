@@ -295,7 +295,7 @@
                 <div class="ga-document-fields-container">
 
                     <!-- ko if: templateRoles().length -->
-                    <h4>Template Roles</h4>
+                    <h4 data-bind="text: localize.GetAccept.TEMPLATE_ROLES"></h4>
                     <ul data-bind="foreach: templateRoles">
                         <li>
                             <label class="ga-label" data-bind="text: role_name"></label>
@@ -315,7 +315,7 @@
                     </ul>
                     <!-- /ko -->
                     <!-- ko if: selectedTemplateFields().length -->
-                    <h4>Template Fields</h4>
+                    <h4 data-bind="text: localize.GetAccept.TEMPLATE_FIELDS"></h4>
                     <ul data-bind="foreach: selectedTemplateFields">
                         <li>
                             <label class="ga-label" data-bind="text: field_label"></label>

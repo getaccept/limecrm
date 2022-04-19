@@ -822,8 +822,9 @@
                 if(!eval('viewModel.'+relatedClassName)) {
                     return;
                 }
+                debugger;
                 $.each(eval('viewModel.' + relatedClassName), function (fieldName, fieldValue) {
-                    if (fieldName === 'id' || fieldName === 'lymetype') {
+                    if (fieldName === 'id' || fieldName === 'limetype') {
                         return;
                     }
                     var fieldData = new mapAvailableField(fieldName, fieldValue, relatedClassName);
@@ -878,17 +879,15 @@
         }
 
         function templateFolder(templateFolder) {
-            this = {
-                ...folder,
-                name: templateFolder.name,
-                id: templateFolder.id,
-                selectFolder: function () {
-                    viewModel.currentFolder(this.id);
-                    getTemplates(this.id);
-                    getTemplateFolders(this.id);
-                }
+            var folder = this;
+            folder.name = templateFolder.name;
+            folder.id = templateFolder.id;
+            folder.selectFolder = function () {
+                viewModel.currentFolder(this.id);
+                getTemplates(this.id);
+                getTemplateFolders(this.id);
             }
-            return this;
+            return folder;
         }
 
         function limeDocumentModel(limeDocument) {
