@@ -822,7 +822,7 @@
                 if(!eval('viewModel.'+relatedClassName)) {
                     return;
                 }
-                debugger;
+
                 $.each(eval('viewModel.' + relatedClassName), function (fieldName, fieldValue) {
                     if (fieldName === 'id' || fieldName === 'limetype') {
                         return;
