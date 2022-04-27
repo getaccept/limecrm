@@ -1,5 +1,15 @@
 # Changelog for GetAccept
 
+## v1.2.0
+**Released:** 2022-04-19
+* Added requirements (LBS version) to readme
+* Added bigger delay for “Open in Getaccept”, was not enough time for importing document
+* Fixed issue with changing email subject and description.
+* Added skip template fields page if template not have fields and roles
+* Added fetch company data related to deal
+* Added picker for template roles
+* Added folders to templates list
+
 ## v1.1.6
 **Released:** 2021-10-27
 * Added populate value for merge fields
