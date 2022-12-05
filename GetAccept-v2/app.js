@@ -452,7 +452,8 @@
                         name: doc.name,
                         status: doc.status,
                         sso_url: sso_url,
-                        is_signing: doc.is_signing
+                        is_signing: doc.is_signing,
+                        lime_id: doc.external_id
                     }
                     document.analytics = function () {
                         documentAnalytics(this);
@@ -475,7 +476,7 @@
             apiRequest('documents/' + document_id + '/download', 'GET', '', function (data) {
                 if (typeof (data.document_url) != 'undefined') {
                     alert(viewModel.localize.GetAccept.DOCUMENT_IS_DOWNLOADED);
-                    lbs.common.executeVba("GetAccept.DownloadFile," + data.document_url + ',' + documentname + ',' + className + ',' + appConfig.title_field);
+                    lbs.common.executeVba("GetAccept.DownloadFile," + data.document_url + ',' + documentname + ',' + className + ',' + appConfig.title_field + ',' + document.lime_id);
                 } else {
                     alert('Could not find signed document');
                 }
