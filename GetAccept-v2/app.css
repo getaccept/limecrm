@@ -992,6 +992,12 @@ a:hover {
     color: #f89214;
 }
 
+.ga-template-list-item .description {
+    display: block;
+    font-size: 10px;
+    margin-left: 2em;
+}
+
 .ga-template-action-links {
     position: absolute;
     bottom: 4.5em;
