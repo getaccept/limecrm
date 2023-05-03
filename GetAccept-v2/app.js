@@ -895,6 +895,7 @@
             document.name = limeDocument.file_name;
             document.id = limeDocument.file_id;
             document.isSelected = ko.observable(false);
+            document.description = limeDocument.description;
 
             document.select = function() {
                 this.isSelected(!this.isSelected());

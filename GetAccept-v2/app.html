@@ -269,6 +269,7 @@
                                     <li class="ga-template-list-item" data-bind=" click: select, css: { 'selected' : isSelected} ">
                                         <i class="fa fa-file-text"></i>
                                         <span data-bind="text: name"></span>
+                                        <span class="description" data-bind="text: description"/>
                                     </li>
                                 </ul>
                                 <span class="ga-document-no-files" data-bind="visible: limeDocumentList().length === 0, text: localize.GetAccept.THERE_ARE_NO_FILES"></span>

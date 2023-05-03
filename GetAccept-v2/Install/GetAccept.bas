@@ -14,6 +14,7 @@ Private Const GlobalDocumentCommentField As String = "comment"
 Private Const GlobalDocumentCompanyField As String = "company"
 Private Const GlobalDocumentTypeFieldOptionQuote As String = "tender"
 Private Const GlobalDocumentTypeFieldOptionAgreement As String = "agreement"
+Private Const GlobalDocumentDescriptionShow As Boolean = True 'Used to show CreatedDate on document'
 
 ' Person
 Private Const GlobalPersonFirstNameField As String = "firstname"
@@ -1157,7 +1158,8 @@ Public Function GetAllDocumentsData(className As String) As String
          Set oRecord = New LDE.Record
          Set oView = New LDE.View
          Call oView.Add(GlobalDocumentField)
-         Call oView.Add(GlobalDocumentCommentField, lkSortAscending)
+         Call oView.Add(GlobalDocumentCommentField)
+         Call oView.Add("iddocument", lkSortDescending)
     
          Set oFilter = New LDE.Filter
          Call oFilter.AddCondition(oInspector.Class.Name, lkOpEqual, oInspector.Record.ID)
@@ -1170,7 +1172,12 @@ Public Function GetAllDocumentsData(className As String) As String
                  retval = retval & " ""file_name"" : """ & oRecord.Value(GlobalDocumentCommentField)
                  retval = retval & "."
                  retval = retval & oRecord.Document(GlobalDocumentField).Extension & ""","
-                 retval = retval & " ""file_id"" : """ & oRecord.ID & """"
+                 retval = retval & " ""file_id"" : """ & oRecord.ID & ""","
+                 If GlobalDocumentDescriptionShow Then
+                    retval = retval & " ""description"" : """ & oRecord.CreatedDate & """"
+                 Else
+                    retval = retval & " ""description"" : """""
+                 End If
                  retval = retval & " },"
              End If
          Next oRecord
