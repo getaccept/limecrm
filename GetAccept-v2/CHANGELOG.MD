@@ -1,5 +1,9 @@
 # Changelog for GetAccept
 
+## v.1.2.1
+* Added support for description texts for Lime documents.
+* Changed display order for Lime documents
+
 ## v1.2.0
 **Released:** 2022-04-19
 * Added requirements (LBS version) to readme
