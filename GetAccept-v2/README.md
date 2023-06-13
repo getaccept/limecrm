@@ -72,6 +72,28 @@ You are now done. Each user will have their own login credentials which is used 
 __Requires the Lime CRM API and a api key.__
 This feature allows GetAccept to automatically post back a signed copy of your signed documents to Lime CRM. It will download the signed document with the signing certificate and store it back in the CRM.
 
+For the 2-way integration you might have to whitelist certain IP-adresses to allow us to post back to Lime. We have three different IP-adresses per region.
+
+EU
+
+3.127.46.199
+35.157.43.138
+52.58.99.121
+
+US
+
+44.232.34.102,
+44.233.210.197
+44.233.237.84
+
+AP
+
+18.139.16.85
+3.0.71.130
+52.76.113.194
+
+
+
 ## How to set it up in LIME CRM
 1. Create a API-user.
 2. Give correct permissions to the user (should follow the LIME standard rules (Add/Read/Write))
