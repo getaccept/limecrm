@@ -541,6 +541,7 @@
             viewModel.personList.removeAll();
             viewModel.limeDocumentList.removeAll();
             viewModel.filesFromDiskList.removeAll();
+            clearTemplates();
             setTimeout(function () {
                 viewModel.GaDocuments(true);
                 listDocuments();
@@ -560,6 +561,8 @@
             hideAllSteps();
             viewModel.Recipient(true);
             viewModel.documentList.removeAll();
+            clearTemplates();
+            viewModel.limeDocumentList.removeAll();
             viewModel.document.removeAll();
         }
 
@@ -895,7 +898,6 @@
             document.name = limeDocument.file_name;
             document.id = limeDocument.file_id;
             document.isSelected = ko.observable(false);
-            document.description = limeDocument.description;
 
             document.select = function() {
                 this.isSelected(!this.isSelected());
@@ -1137,11 +1139,11 @@
 
         function toggleTemplatePicker() {
             viewModel.useTemplates(true);
-            viewModel.useLimeFile(false);
+            viewModel.useLimeFile(true);
         }
 
         function toggleDocumentPicker() {
-            viewModel.useTemplates(false);
+            viewModel.useTemplates(true);
             viewModel.useLimeFile(true);
         }
 
@@ -1153,6 +1155,7 @@
 
         function goToDocumentAfterFields() {
             hideAllSteps();
+            hideRecipientslist();
             viewModel.Document(true);
         }
         viewModel.goToDocumentAfterFields = goToDocumentAfterFields;
@@ -1171,17 +1174,18 @@
                 getTemplateRoles();
                 getTemplateFields();
             }
-            else if (viewModel.filesFromDiskList().length > 0) {
+            if (viewModel.filesFromDiskList().length > 0) {
                 haveSelectFile();
                 viewModel.Document(true);
                 uploadDocument(true);
                 viewModel.useLimeFile(false);
-            } else if (!$.isEmptyObject(limeTemplates)) {
+            } if (!$.isEmptyObject(limeTemplates)) {
                 haveSelectFile();
                 viewModel.Document(true);
                 uploadDocument(false);
                 viewModel.useLimeFile(true);
-            } else {
+            } 
+            if(!viewModel.selectedTemplate() && viewModel.filesFromDiskList().length === 0 && $.isEmptyObject(limeTemplates) ) {
                 alert("Please select a document or a template step forward.")
             }
         }
@@ -1194,13 +1198,10 @@
         }
 
         function toggleFileContainer(gaTemplate) {
-            clearTemplates();
             if(gaTemplate) {
-                viewModel.showLimeFiles(false);
                 viewModel.showGaTemplates(!viewModel.showGaTemplates())
             }
             else {
-                viewModel.showGaTemplates(false);
                 viewModel.showLimeFiles(!viewModel.showLimeFiles())
             }
         }
@@ -1224,9 +1225,6 @@
                 var file = new fileModel(fileData);
                 viewModel.filesFromDiskList.push(file);
                 viewModel.documentName(file.file_name);
-
-                viewModel.useTemplates(false);
-                viewModel.useLimeFile(false);
             }
             else {
 
@@ -1415,7 +1413,7 @@
             }
         }
 
-        function sendDocument(automaticSending) {
+        async function sendDocument(automaticSending) {
             var deal_value, deal_name, company_name = "";
             var video_id = null;
             viewModel.Spinner(true);
@@ -1478,21 +1476,19 @@
 
 
                 //If Template. Add Template data
-                if (!!viewModel.selectedTemplate() && viewModel.useTemplates()) {
-                    addTemplates(documentData, automaticSending);
+                if (!!viewModel.selectedTemplate() && viewModel.useTemplates()  ) {
+                    documentData = await addTemplates(documentData);
                 }
-                //If Lime Doument. Add Lime document data
-                else if (viewModel.limeDocumentList().length > 0) {
-                    addFile(documentData, automaticSending);
+                //If File from disk or Lime Documents. Add file data
+                if (viewModel.filesFromDiskList().length > 0 || viewModel.limeDocumentList().length > 0) {
+                    documentData = await addFile(documentData);
                 }
-                //If File from disk. Add file data
-                else if (viewModel.filesFromDiskList().length > 0) {
-                    addFile(documentData, automaticSending);
-                }
+                //Sends document
+                postDocument(documentData, automaticSending);
             }
         }
 
-        function addTemplates(documentData, automaticSending) {
+        function addTemplates(documentData) {
             //Adds name from template
             documentData.name = viewModel.selectedTemplate().name;
             //Adds template id
@@ -1510,11 +1506,10 @@
                 documentData.custom_fields = customFields;
             }
 
-            //Sends document
-            postDocument(documentData, automaticSending);
+            return documentData;
         }
 
-        function addFile(documentData, automaticSending) {
+        function addFile(documentData) {
             //Adds document name
             documentData.name = viewModel.documentName() ? viewModel.documentName() : 'Document from lime' ;
 
@@ -1532,9 +1527,8 @@
 
             //Adds file data
             documentData.file_ids = file_ids;
-
-            //Sends document
-            postDocument(documentData, automaticSending);
+            
+            return documentData;
         }
 
         function postDocument(documentData, automaticSending) {
