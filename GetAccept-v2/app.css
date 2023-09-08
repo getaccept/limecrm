@@ -1041,7 +1041,7 @@ a:hover {
 .ga-uploaded-file-list {
     margin-top: 1em;
     padding: 0 0.5em;
-    height: 12em;
+    max-height: 12em;
     overflow: auto;
 }
 
