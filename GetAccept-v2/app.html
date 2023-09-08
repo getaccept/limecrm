@@ -223,7 +223,7 @@
                     <!-- /ko -->
                 </div>
                 
-                <!-- ko if: filesFromDiskList().length === 0 -->
+                
                     <div class="ga-document-documents">
                         <div class="ga-document-select-lime-template">
                             <h4 data-bind="click: toggleFileContainer(true)">
@@ -269,9 +269,6 @@
                                     <li class="ga-template-list-item" data-bind=" click: select, css: { 'selected' : isSelected} ">
                                         <i class="fa fa-file-text"></i>
                                         <span data-bind="text: name"></span>
-                                        <!-- ko if: description() != '' -->
-                                        <span class="description" data-bind="text: description"/>
-                                        <!-- /ko -->
                                     </li>
                                 </ul>
                                 <span class="ga-document-no-files" data-bind="visible: limeDocumentList().length === 0, text: localize.GetAccept.THERE_ARE_NO_FILES"></span>
@@ -280,8 +277,7 @@
                         </div>
 
 
-                    </div>
-                 <!-- /ko -->           
+                    </div>        
             </div>
 
             <!-- ko if: useTemplates() -->
@@ -301,11 +297,11 @@
                     <h4 data-bind="text: localize.GetAccept.TEMPLATE_ROLES"></h4>
                     <ul data-bind="foreach: templateRoles">
                         <li>
-                            <label class="ga-label" data-bind="text: role_name"></label>
+                            <label class="ga-label" data-bind="text: role_name? role_name: `${first_name} ${last_name}`"></label>
                             
-                            <input type="text" class="form-control ga-input-fied ga-input-role" data-bind="click: function (data, event) {$root.showRecipientsList($index, data, event)}, clickBubble: false, value: email, attr: { readonly: 'readonly' , placeholder: $root.localize.GetAccept.CLICK_TO_SELECT_RECIPIENT, id: 'role-'+$index() }"
+                            <input type="text" class="form-control ga-input-fied ga-input-role" data-bind="click: function (data, event) {$root.showRecipientsList($index, data, event)}, clickBubble: false, value: email, attr: { readonly: !email, readonly: 'readonly' , placeholder: $root.localize.GetAccept.CLICK_TO_SELECT_RECIPIENT, id: 'role-'+$index() }"
                             />
-                            <!-- ko if : $root.showRolesRecipientsList() == $index() -->
+                            <!-- ko if : $root.showRolesRecipientsList() == $index() && !email -->
                             <div class="ga-recipient-container">
                                 <ul class="ga-recipient-personList" data-bind="foreach: $root.recipientsList">
                                     <li data-bind="click: function(data, event) { addRole($parent, $parentContext.$index(), data) }, clickBubble: false">
@@ -359,7 +355,7 @@
                 </div>
             <!-- /ko -->
 
-            <!-- ko if: Document() -->
+            <!-- ko if: Document() && !TemplateFields() -->
                 <div class="ga-document ga-sendout-workflow">
                     <a class="ga-back" data-bind="text: localize.GetAccept.BACK, click: backDocument, icon: 'fa-arrow-left'"></a>
                     <ul class="ga-steps" data-bind="foreach: worksteps, visible: worksteps().length > 0">
@@ -498,7 +494,7 @@
                         <select id="entities" class="form-control" data-bind="options: entityList, optionsText: 'name', value: selectedEntity, event:{ change: selectEntity }">
                         </select>
                     </div>
-                    <p class="ga-settings-version">1.2.2</p>
+                    <p class="ga-settings-version">1.2.3</p>
                 </div>
             <!-- /ko -->
 
