@@ -1,5 +1,8 @@
 # Changelog for GetAccept
 
+
+## v.1.2.2
+* Solved bug connected to description not beeing observable
 ## v.1.2.1
 * Added support for description texts for Lime documents.
 * Changed display order for Lime documents
