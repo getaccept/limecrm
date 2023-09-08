@@ -298,7 +298,7 @@
                     <!-- ko if: templateRoles().length -->
                     <h4 data-bind="text: localize.GetAccept.TEMPLATE_ROLES"></h4>
                     <ul data-bind="foreach: templateRoles">
-                        <li></li>
+                        <li>
                             <label class="ga-label" data-bind="text: role_name? role_name: `${first_name} ${last_name}`"></label>
                             
                             <input type="text" class="form-control ga-input-fied ga-input-role" data-bind="click: function (data, event) {$root.showRecipientsList($index, data, event)}, clickBubble: false, value: email, attr: { readonly: !email, readonly: 'readonly' , placeholder: $root.localize.GetAccept.CLICK_TO_SELECT_RECIPIENT, id: 'role-'+$index() }"
