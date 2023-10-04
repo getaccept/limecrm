@@ -34,19 +34,18 @@ There is a list in the VBA in GetAccept.CheckFileTypes where you can configure w
 	[GetAcceptEmail](https://github.com/getaccept/limecrm/tree/master/GetAcceptEmail)
 2. [Files] - Copy the folders "GetAccept-v2" and "GetAcceptEmail" to the apps folder in the Actionpad-folder. (Don't forget to unblock files before unzipping and moving them)
 
-3. [LISA] - Add a yes/no field named to "sent_with_ga" to the document table, set it as "Read only for LIME PRO" in LISA.
-4. [LISA/VBA] - Check if the History > type field is named "type" and if there is an option with they key "sentemail". this will be set in the VBA and if it doesn't exist it will not work (you can change it in the vba GetAccept.SetDocumentStatus)
+3. [LISA/VBA] - Check if the History > type field is named "type" and if there is an option with they key "sentemail". this will be set in the VBA and if it doesn't exist it will not work (you can change it in the vba GetAccept.SetDocumentStatus)
 
-5. [VBA] - Import the GetAccept.bas ("..\Install\VBA") to the VBA
-6. [VBA] - Run the Install method in the GetAccept VBA module. You must have a localization table in the databas. It is  translated to English, Swedish, Norwegia, Danish and Finish. Check which fields you have in your localization table. Dependent on which fields you have you need to remove languages in AddOrCheckLocalize in the VBA (Example: If the lanugage Norwegian or Danish is missing in you localization table you should remove oRec.Value("no") = sNO and oRecs(1).Value("no") = sNO) and so on.
-7. [VBA] - Restart Lime CRM or run ThisApplication.setup to load the new translations
+4. [VBA] - Import the GetAccept.bas ("..\Install\VBA") to the VBA
+5. [VBA] - Run the Install method in the GetAccept VBA module. You must have a localization table in the databas. It is  translated to English, Swedish, Norwegia, Danish and Finish. Check which fields you have in your localization table. Dependent on which fields you have you need to remove languages in AddOrCheckLocalize in the VBA (Example: If the lanugage Norwegian or Danish is missing in you localization table you should remove oRec.Value("no") = sNO and oRecs(1).Value("no") = sNO) and so on.
+6. [VBA] - Restart Lime CRM or run ThisApplication.setup to load the new translations
 
-8. [Actionpad] - Import the html-tag below to the actionpad where you want the GetAccept App tho be shown. It's most commonly used from company.html or deal.html. Place the html-tag in the actionpad header.
+7. [Actionpad] - Import the html-tag below to the actionpad where you want the GetAccept App tho be shown. It's most commonly used from company.html or deal.html. Place the html-tag in the actionpad header.
 The table must have a document tab and you must be able to connect to a person tab either directly on the card or on a related table.
 
-9. [LIME] - Publish the actionpad!
+8. [LIME] - Publish the actionpad!
 
-10. [Do this test](https://github.com/getaccept/limecrm/blob/master/GetAccept-v2/Install/test-of-workflow.md)
+9. [Do this test](https://github.com/getaccept/limecrm/blob/master/GetAccept-v2/Install/test-of-workflow.md)
 
 ``` html
 <div data-app="{app:'GetAccept-v2',config:{
@@ -118,8 +117,6 @@ AP
 		name: Signed, key: signed
 
 **The getacceptstatus field is implemented now to be able to use in the feature. It will only set status Signed until next version.**
-
-[sent_with_ga] - type: Yes/No field
 
 [comment] - type: Text field
 
