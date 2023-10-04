@@ -992,12 +992,6 @@ a:hover {
     color: #f89214;
 }
 
-.ga-template-list-item .description {
-    display: block;
-    font-size: 10px;
-    margin-left: 2em;
-}
-
 .ga-template-action-links {
     position: absolute;
     bottom: 4.5em;
@@ -1013,8 +1007,8 @@ a:hover {
 
 .ga-document-template-container {
     position: relative;
-    padding: 0.5em 0.5em 2em 0.5em;
-    height: 8em;
+    padding: 0.5em 0.5em 1.5em 0.5em;
+    height: 4em;
     overflow: auto;
     -moz-transition: height 0.2s ease-in-out;
     -webkit-transition: height 0.2s ease-in-out;
@@ -1039,14 +1033,13 @@ a:hover {
 }
 
 .ga-uploaded-file-list {
-    margin-top: 1em;
     padding: 0 0.5em;
     max-height: 12em;
     overflow: auto;
 }
 
 .ga-uploaded-file-list .file-item {
-    padding: 1em 0em;
+    padding: 0.5em 0em;
     color: #f89214;
     border-bottom: 1px solid rgb(238,238,238);
 }
@@ -1250,5 +1243,10 @@ a:hover {
 
     .ga-recipient-recipients {
         height: 15em;
+    }
+
+    .ga-document-template-container {
+        height: 8rem;
+        padding: 0.5em 0.5em 2em 0.5em;
     }
 }
