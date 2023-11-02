@@ -401,7 +401,7 @@ Public Function CheckDocuments(activeRecordId As Long, activeClass As String) As
     
     Call oView.Add("iddocument")
     
-    Call oFilter.AddCondition("sent_with_ga", lkOpEqual, 1)
+    ' Call oFilter.AddCondition("sent_with_ga", lkOpEqual, 1)
     Call oFilter.AddCondition(activeClass, lkOpEqual, activeRecordId)
     Call oFilter.AddOperator(lkOpAnd)
     
@@ -440,7 +440,7 @@ Public Function showList(sType As String) As Boolean
     If Not (ActiveControls.State And lkControlsStateNew) = lkControlsStateNew Then
    
         Dim oFilter As New LDE.Filter
-        Call oFilter.AddCondition("sent_with_ga", lkOpEqual, 1)
+        ' Call oFilter.AddCondition("sent_with_ga", lkOpEqual, 1)
         Call oFilter.AddCondition(sType, lkOpEqual, ActiveInspector.Record.ID)
         Call oFilter.AddOperator(lkOpAnd)
         
@@ -635,7 +635,7 @@ Public Sub SetDocumentStatus(sStatus As String, className As String)
                     ' Set sent_with_ga status
                     Set oRecordDocument = New LDE.Record
                     oRecordDocument.Open Classes("document"), oItem.Record.ID
-                    oRecordDocument.Value("sent_with_ga") = sStatus
+                    ' oRecordDocument.Value("sent_with_ga") = sStatus
                     Call oRecordDocument.Update
                 Next
             End If
@@ -761,7 +761,7 @@ Public Sub DownloadFile(sLink As String, sFileName As String, className As Strin
         End If
         
         oRecord(commentField) = sFileName & " (" & (Localize.GetText("GetAccept", "SIGNED")) & ")"
-        oRecord("sent_with_ga") = 1
+        ' oRecord("sent_with_ga") = 1
         oRecord.Update
          
     Else
