@@ -148,11 +148,11 @@
             if ($('.ga-container').hasClass("extended")) {
                 $('.ga-container').removeClass("extended");
                 $('.chevron').removeClass("fa-chevron-up").addClass("fa-chevron-down");
-                lbs.bakery.setCookie("shouldToggle", null, -1);
+                lbs.bakery.setLocalValue("shouldToggle", null, -1);
             } else {
                 $('.ga-container').addClass("extended");
                 $('.chevron').removeClass("fa-chevron-down").addClass("fa-chevron-up");
-                lbs.bakery.setCookie("shouldToggle", true, 30);
+                lbs.bakery.setLocalValue("shouldToggle", true, 30);
             }
         }
 
@@ -196,7 +196,7 @@
             apiRequest("users/me", "GET", "", function (data) {
                 if (!!data.user) {
                     var userHash = data.user.id;
-                    lbs.bakery.setCookie("userHash", userHash, 30);
+                    lbs.bakery.setLocalValue("userHash", userHash, 30);
                     viewModel.Login(false);
                     viewModel.GaDocuments(true);
                     initGa();
@@ -213,11 +213,11 @@
             accessToken = "";
             refreshToken = "";
             expireToken = "";
-            lbs.bakery.setCookie("accessToken", null, -1);
-            lbs.bakery.setCookie("refreshToken", null, -1);
-            lbs.bakery.setCookie("expireToken", null, -1);
-            lbs.bakery.setCookie("entityId", null, -1);
-            lbs.bakery.setCookie("userHash", null, -1);
+            lbs.bakery.setLocalValue("accessToken", null, -1);
+            lbs.bakery.setLocalValue("refreshToken", null, -1);
+            lbs.bakery.setLocalValue("expireToken", null, -1);
+            lbs.bakery.setLocalValue("entityId", null, -1);
+            lbs.bakery.setLocalValue("userHash", null, -1);
 
             $('.win-document').addClass('hidden');
             $('.win-auth').removeClass('hidden');
@@ -237,38 +237,38 @@
             }
             if (data.entity_id) {
                 entityId = data.entity_id;
-                lbs.bakery.setCookie("entityId", entityId, 30);
+                lbs.bakery.setLocalValue("entityId", entityId, 30);
             }
             if (data.user_hash) {
                 userHash = data.user_hash;
-                lbs.bakery.setCookie("userHash", userHash, 30);
+                lbs.bakery.setLocalValue("userHash", userHash, 30);
             }
             var expireToken = Math.ceil(new Date().getTime() / 1000) + data.expires_in;
-            lbs.bakery.setCookie("accessToken", accessToken, 30);
-            lbs.bakery.setCookie("refreshToken", refreshToken, 30);
-            lbs.bakery.setCookie("expireToken", expireToken, 30);
-            lbs.bakery.setCookie("fullToken", JSON.stringify(data), 30);
+            lbs.bakery.setLocalValue("accessToken", accessToken, 30);
+            lbs.bakery.setLocalValue("refreshToken", refreshToken, 30);
+            lbs.bakery.setLocalValue("expireToken", expireToken, 30);
+            lbs.bakery.setLocalValue("fullToken", JSON.stringify(data), 30);
             return;
         }
 
 
         function checkLogin() {
             var have_token = false;
-            if (typeof lbs.bakery.getCookie("accessToken") != 'undefined') {
-                if (lbs.bakery.getCookie("accessToken") != '') {
+            if (typeof lbs.bakery.getLocalValue("accessToken") != 'undefined') {
+                if (lbs.bakery.getLocalValue("accessToken") != '') {
                     have_token = true;
 
                 }
             }
             if (have_token) {
-                accessToken = lbs.bakery.getCookie("accessToken");
+                accessToken = lbs.bakery.getLocalValue("accessToken");
                 apiRequest("test", "GET", "", function (data) {
                     if (data) {
-                        refreshToken = lbs.bakery.getCookie("refreshToken");
-                        expireToken = parseInt(lbs.bakery.getCookie("expireToken"));
-                        entityId = lbs.bakery.getCookie("entityId");
-                        userHash = lbs.bakery.getCookie("userHash");
-                        fullToken = lbs.bakery.getCookie("fullToken");
+                        refreshToken = lbs.bakery.getLocalValue("refreshToken");
+                        expireToken = parseInt(lbs.bakery.getLocalValue("expireToken"));
+                        entityId = lbs.bakery.getLocalValue("entityId");
+                        userHash = lbs.bakery.getLocalValue("userHash");
+                        fullToken = lbs.bakery.getLocalValue("fullToken");
                         if (fullToken) {
                             lbs.common.executeVba("GetAccept.SetTokens", fullToken);
                         }
@@ -288,7 +288,7 @@
                         listEntities();
                         listDocuments();
 
-                        if (!!lbs.bakery.getCookie("shouldToggle") && lbs.bakery.getCookie("shouldToggle") !== 'undefined') {
+                        if (!!lbs.bakery.getLocalValue("shouldToggle") && lbs.bakery.getLocalValue("shouldToggle") !== 'undefined') {
                             setTimeout(function () {
                                 toogleGaView();
                             }, 500);
@@ -723,7 +723,7 @@
         function getTemplates(folder_id) {
             viewModel.templateList.removeAll();
             originalTemplateList = [];
-            apiRequest(`templates?folder_id=${folder_id}`, 'GET', '', function (data) {
+            apiRequest(`templates${folder_id ? '?folder_id=' + folder_id : ''}`, 'GET', '', function (data) {
                 if (data.templates) {
                     $.each(data.templates, function (index, templateData) {
                         var temp = new templateModel(templateData);
@@ -899,9 +899,12 @@
             document.id = limeDocument.file_id;
             document.isSelected = ko.observable(false);
             document.description = ko.observable(limeDocument.description);
+            document.order = ko.observable(0);
 
             document.select = function() {
                 this.isSelected(!this.isSelected());
+                this.order(this.isSelected() ? viewModel.limeDocumentList().filter(doc => doc.isSelected()).length : 0);
+
             }
             return document;
         }
@@ -1566,17 +1569,20 @@
                 document_data = file_list;
             }
             else {
-                $.each(viewModel.limeDocumentList(), function(i, doc){
+                $.each(viewModel.limeDocumentList().sort((a, b) => a.order() - b.order()), function(i, doc){
                     if(doc.isSelected()) {
                         var docData = lbs.common.executeVba("GetAccept.GetDocumentData," + className + "," + doc.id);
                         docData = JSON.parse(docData);
                         document_data.push(docData);
-                        viewModel.documentName(doc.name);
+                        if(!viewModel.documentName()) {
+                            viewModel.documentName(doc.name);
+                        }
                     }
                 });
             }
             if (document_data.length > 0) {
                 $.each(document_data, function (index, doc) {
+                    debugger
                     var file = window.atob(doc.file_content);
                     var len = file.length;
                     var bytes = new Uint8Array(len);
