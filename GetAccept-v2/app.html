@@ -266,9 +266,12 @@
                             <div class="ga-document-template-container" data-bind="css: { 'hiddenContainer' : !showLimeFiles() }">
                                 <!-- ko if: showLimeFiles() -->
                                 <ul class="ga-template-list" data-bind="foreach: limeDocumentList">
-                                    <li class="ga-template-list-item" data-bind=" click: select, css: { 'selected' : isSelected} ">
-                                        <i class="fa fa-file-text"></i>
-                                        <span data-bind="text: name"></span>
+                                    <li class="ga-template-list-item"  data-bind=" click: select, css: { 'selected' : isSelected} ">
+                                        <div>
+                                            <i class="fa fa-file-text"></i>
+                                            <span data-bind="text: name"></span>
+                                        </div>
+                                        <span data-bind="text: $data.order"></span>
                                     </li>
                                 </ul>
                                 <span class="ga-document-no-files" data-bind="visible: limeDocumentList().length === 0, text: localize.GetAccept.THERE_ARE_NO_FILES"></span>
@@ -494,7 +497,7 @@
                         <select id="entities" class="form-control" data-bind="options: entityList, optionsText: 'name', value: selectedEntity, event:{ change: selectEntity }">
                         </select>
                     </div>
-                    <p class="ga-settings-version">1.2.4</p>
+                    <p class="ga-settings-version">1.2.5</p>
                 </div>
             <!-- /ko -->
 

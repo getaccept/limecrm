@@ -986,6 +986,8 @@ a:hover {
     position: relative;
     padding: 0.2em 0.2em;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 }
 
 .ga-template-list-item.selected {
